@@ -129,44 +129,80 @@ int main() {
         }
 
 
+        int temp;
+        // 如一行中有相同的最大数，
+        // 那么就必须是索引最小的一个首先被加入
         for (int i = 0;i < n; i ++) {
             for (int j = 0; j < n; j ++) {
+                if (row_max_point[i][j] == 1) {
+                    temp = matrix[i][j];
+                    continue;
+                }
+
+                if (temp == matrix[i][j])
+                    row_max_point[i][j] = 1;
             }
         }
 
+        printf("\n==============\n");
         for (int i = 0;i < n; i ++)
             for (int j = 0; j < n; j ++)
                 printf("%d%c", row_max_point[i][j], (j == n - 1) ? '\n' : ' ');
-        return 0;
+        //return 0;
 
+        printf("\n==============\n");
 
         int min_col = 0, min_row = 0;
+        // 此 for 有大 Bug
         for (int i = 0;i < n; i ++) {
             for (int j = 0; j < n; j ++) {
+                printf("%d%c", matrix[j][i], (j == n -1 ) ? '\n' : ' ');
                 if (matrix[j][i] < matrix[min_col][min_row]) {
                     min_row = i;
                     min_col = j;
                 }
             }
-            col_min_point[min_row][min_col] = 1;
+            col_min_point[min_col][min_row] = 1;
         }
 
         for (int i = 0;i < n; i ++) {
             for (int j = 0; j < n; j ++) {
-                if (matrix[j][i] == matrix[min_col][min_row] && i != min_row) {
-                    row_max_point[j][i] = 1;
+                if (col_min_point[j][i] == 1) {
+                    temp = matrix[j][i];
+                    continue;
+                }
+
+                if (temp == matrix[j][i]) {
+                    col_min_point[j][i] = 1;
                 }
             }
         }
 
-        for (int i = 0;i < n; i ++) {
-            for (int j = 0; j < n; j ++) {
-                if (row_max_point[i][j] == 1 && col_min_point[i][j] == 1) {
+        printf("\n==============\n");
+        for (int i = 0;i < n; i ++)
+            for (int j = 0; j < n; j ++)
+                printf("%d%c", col_min_point[i][j], (j == n - 1) ? '\n' : ' ');
+
+        printf("\n++++++++++\n");
+        unsigned char found = 0;
+        for (int i = 0; i < n; i ++) {
+            for (int j = 0; j < n ; j ++) {
+                if (col_min_point[i][j] == 1 && row_max_point[i][j] == 1) {
                     printf("%d %d", i, j);
+                    found = 1;
                     break;
                 }
             }
+
+            if (found)
+                break;
         }
+
+        if (!found)
+            printf("NONE");
+
+
+        return 0;
     }
 
 

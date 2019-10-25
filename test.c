@@ -9,16 +9,11 @@
 ================================================================*/
 #include <stdio.h>
 
-int max(int a, int b);
 int main() {
 
-    int a = 1;
-    int b = 10;
-    printf("max: %d\n", max(a, b));
+    int a[5] = {1,2,3,4,5};
+    int *p = (int *)(&a + 1);
+    printf("%d,%d", *(a + 1), *(p - 1));
 
     return 0;
-}
-
-int max(int a, int b) {
-    return (a > b) ? a : b;
 }
